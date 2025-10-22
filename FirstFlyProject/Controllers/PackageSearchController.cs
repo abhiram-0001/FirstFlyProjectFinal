@@ -17,7 +17,6 @@ namespace FirstFlyProject.Controllers
             _packageService = packageService;
         }
 
-        // 1. SEARCH ENDPOINT: GET /api/Packages/search?Destination=...
         [HttpGet("search")]
         public async Task<ActionResult> Search([FromQuery]string Destination, [FromQuery]int NoOfAdult, [FromQuery]double? maxprice)
         {
@@ -25,13 +24,12 @@ namespace FirstFlyProject.Controllers
             return Ok(results);
         }
 
-        // 2. BOOKING ENDPOINT: POST /api/Packages/book
         [HttpPost("book")]
 
         public async Task<IActionResult> Book([FromBody] CreateBookingRequest request)
         {
             // Retrieve UserID from the authenticated user's JWT token
-            int userId = CurrentUserId; // Placeholder: Replace with logic to get user ID from token
+            int userId = CurrentUserId; 
 
             var booking = await _packageService.CreateBooking(request, userId);
 
