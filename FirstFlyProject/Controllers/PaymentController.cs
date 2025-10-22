@@ -16,11 +16,11 @@ namespace FirstFlyProject.Controllers
         {
             _paymentService = paymentService;
         }
-        [HttpGet("checkout/{bookingId:int}")]
-        public async Task<ActionResult> CheckOut(int bookingId,[FromQuery]int userdId)
+        [HttpGet("checkout")]
+        public async Task<ActionResult> CheckOut([FromQuery]int userId)
         {
-            if (CurrentUserRole == "Customer" && CurrentUserId != userdId) return Forbid();
-            var cards = await _paymentService.GetSavedCardsAsync(userdId);
+            if (CurrentUserRole == "Customer" && CurrentUserId != userId) return Forbid();
+            var cards = await _paymentService.GetSavedCardsAsync(userId);
             return Ok(cards);
         }
         [HttpPost("card")]

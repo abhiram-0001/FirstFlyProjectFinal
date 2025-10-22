@@ -8,7 +8,7 @@ namespace FirstFlyProject.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = "Customer")]
+    [Authorize(Roles = "Customer, TravelAgent")]
     public class PackageSearchController : BaseApiController
     {
         private readonly IPackageService _packageService;
