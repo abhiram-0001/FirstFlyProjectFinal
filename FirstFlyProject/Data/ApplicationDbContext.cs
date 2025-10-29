@@ -15,7 +15,7 @@ namespace FirstFlyProject.Data
             }
             public DbSet<User> Users { get; set; }
             public DbSet<TravelPackage> TravelPackages { get; set; }
-            public DbSet<Review> Reviews { get; set; }
+            public DbSet<Companion> Companions { get; set; }
             public DbSet<Payment> Payments { get; set; }
             public DbSet<Insurance> Insurances { get; set; }
             public DbSet<Booking> Bookings { get; set; }
@@ -35,10 +35,10 @@ namespace FirstFlyProject.Data
                     .HasForeignKey(b => b.UserId)
                     .OnDelete(DeleteBehavior.ClientSetNull);
 
-                // USER ↔ REVIEW (One-to-Many)
-                modelBuilder.Entity<Review>()
+                // USER ↔ COMPANION (One-to-Many)
+                modelBuilder.Entity<Companion>()
                     .HasOne(r => r.User)
-                    .WithMany(u => u.Reviews)
+                    .WithMany(u => u.Companions)
                     .HasForeignKey(r => r.UserId)
                     .OnDelete(DeleteBehavior.ClientSetNull);
 
@@ -63,13 +63,6 @@ namespace FirstFlyProject.Data
                     .HasForeignKey(ar => ar.UserId)
                     .OnDelete(DeleteBehavior.ClientSetNull);
 
-                // BOOKING ↔ REVIEW (One-to-Many)
-                modelBuilder.Entity<Review>()
-                    .HasOne(r => r.Booking)
-                    .WithMany(b => b.Reviews)
-                    .HasForeignKey(r => r.BookingId)
-                    .OnDelete(DeleteBehavior.ClientSetNull);
-
                 // BOOKING ↔ PAYMENT (One-to-Many)
                 modelBuilder.Entity<Payment>()
                     .HasOne(p => p.Booking)
@@ -92,11 +85,11 @@ namespace FirstFlyProject.Data
                     .OnDelete(DeleteBehavior.ClientSetNull);
                 modelBuilder.Entity<User>()
                     .HasOne(u=>u.Customer)
-                    .WithOne(c=>c.Cust) // or .WithOne() depending on your model
+                    .WithOne(c=>c.Cust) 
                     .HasForeignKey<Customer>(c=>c.CustomerID);
                 modelBuilder.Entity<User>()
                     .HasOne(u => u.TravelAgent)
-                    .WithOne(t=>t.Agent) // or .WithOne() depending on your model
+                    .WithOne(t=>t.Agent) 
                     .HasForeignKey<TravelAgent>(t=>t.TravelAgentID);
 
             //TravelAgent - TravelPackage (one -to-many)

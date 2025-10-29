@@ -18,7 +18,7 @@ namespace FirstFlyProject.Entities
 
         // Navigation Properties (Relationships)
         public ICollection<Booking> Bookings { get; set; }
-        public ICollection<Review> Reviews { get; set; }
+        public ICollection<Companion> Companions { get; set; }
         public ICollection<AssistanceRequest> AssistanceRequests { get; set; }
         public ICollection<Insurance> Insurances { get; set; }
         public ICollection<Payment> Payments { get; set; }

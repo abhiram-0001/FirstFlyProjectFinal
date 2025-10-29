@@ -15,7 +15,6 @@ namespace FirstFlyProject.Entities
         // Navigation Properties (Relationships)
         public User User { get; set; } // One-to-Many with User
         public TravelPackage Package { get; set; } // One-to-Many with TravelPackage
-        public ICollection<Review> Reviews { get; set; }
         public ICollection<Insurance> Insurances { get; set; }
         public ICollection<Payment> Payments { get; set; }
     }
