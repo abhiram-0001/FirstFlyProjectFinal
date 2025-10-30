@@ -1,8 +1,8 @@
-﻿using FirstFly.Models;
+﻿using FirstFlyProject.Models;
 using Microsoft.AspNetCore.Mvc;
-using FirstFly.Services;
+using FirstFlyProject.Services;
 
-namespace FirstFly.Controllers
+namespace FirstFlyProject.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
