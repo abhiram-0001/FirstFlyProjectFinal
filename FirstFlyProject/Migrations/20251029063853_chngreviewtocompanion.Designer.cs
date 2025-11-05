@@ -4,6 +4,7 @@ using FirstFlyProject.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FirstFlyProject.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251029063853_chngreviewtocompanion")]
+    partial class chngreviewtocompanion
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -140,6 +143,9 @@ namespace FirstFlyProject.Migrations
                     b.Property<int>("Age")
                         .HasColumnType("int");
 
+                    b.Property<int?>("BookingId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Gender")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -152,6 +158,8 @@ namespace FirstFlyProject.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("CompanionId");
+
+                    b.HasIndex("BookingId");
 
                     b.HasIndex("UserId");
 
@@ -370,6 +378,10 @@ namespace FirstFlyProject.Migrations
 
             modelBuilder.Entity("FirstFlyProject.Entities.Companion", b =>
                 {
+                    b.HasOne("FirstFlyProject.Entities.Booking", null)
+                        .WithMany("Reviews")
+                        .HasForeignKey("BookingId");
+
                     b.HasOne("FirstFlyProject.Entities.User", "User")
                         .WithMany("Companions")
                         .HasForeignKey("UserId")
@@ -450,6 +462,8 @@ namespace FirstFlyProject.Migrations
                     b.Navigation("Insurances");
 
                     b.Navigation("Payments");
+
+                    b.Navigation("Reviews");
                 });
 
             modelBuilder.Entity("FirstFlyProject.Entities.TravelAgent", b =>
