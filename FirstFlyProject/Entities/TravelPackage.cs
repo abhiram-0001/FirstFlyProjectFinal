@@ -11,7 +11,7 @@ namespace FirstFlyProject.Entities
         public int Duration { get; set; }
         public float? Price { get; set; }
         public string? IncludedServices { get; set; }
-
+        public string ? ImageUrl { get; set; }
         public int TravelAgentID { get; set; }
 
         // Navigation Properties (Relationships)
