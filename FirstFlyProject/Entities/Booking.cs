@@ -8,6 +8,8 @@ namespace FirstFlyProject.Entities
         public int BookingId { get; set; } // Primary Key
         public int UserId { get; set; } // Foreign Key
         public int PackageId { get; set; } // Foreign Key
+        public string PackageName { get; set; }
+        public decimal TotalPrice { get; set; } 
         public DateTime StartDate { get; set; } = DateTime.UtcNow;
         public DateTime EndDate { get; set; } = DateTime.UtcNow;
         public string Status { get; set; }

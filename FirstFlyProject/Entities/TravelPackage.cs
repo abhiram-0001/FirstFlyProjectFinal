@@ -7,6 +7,7 @@ namespace FirstFlyProject.Entities
         [Key]
         public int PackageId { get; set; } // Primary Key
         public string Title { get; set; }
+        public string ?Destination { get; set; }
         public string? Description { get; set; }
         public int Duration { get; set; }
         public float? Price { get; set; }

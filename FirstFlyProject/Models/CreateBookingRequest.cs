@@ -5,6 +5,8 @@
         public int PackageID { get; set; }
         public DateTime SelectedStartDate { get; set; }
         public int NumberOfPeople { get; set; }
-        public bool IncludeInsurance { get; set; } 
+        public bool IncludeInsurance { get; set; } = false;
+        public string PackageName { get; set; } 
+        public decimal TotalPrice { get; set; } 
     }
 }

@@ -16,20 +16,19 @@ namespace FirstFlyProject.Services
             _context = context;
         }
 
-        public async Task<List<PackageSearchRequest>> SearchPackages(string Destination, int NoOfAdult, double? maxprice)
+        public async Task<List<PackageSearchRequest>> SearchPackages(string? Destination, int? duration)
         {
-
+       
             var query = _context.TravelPackages.AsQueryable();
-
+            if(duration.HasValue)
+            {
+                query = query.Where(p => p.Duration == duration.Value);
+            }
             if (!string.IsNullOrEmpty(Destination))
             {
                 query = query.Where(p => p.Title.Contains(Destination) || p.Description.Contains(Destination));
             }
-
-            if (maxprice.HasValue)
-            {
-                query = query.Where(p => (p.Price * NoOfAdult) <= maxprice);
-            }
+            
             var isEmpty = !query.Any();
             if (isEmpty)
             {
@@ -38,11 +37,12 @@ namespace FirstFlyProject.Services
             var result = await query.Select(x => new PackageSearchRequest
             {
                 PackageId = x.PackageId,
+                ImageUrl=x.ImageUrl,
                 TravelAgentID = x.TravelAgentID,
                 Duration = x.Duration,
                 Description = x.Description,
                 Title = x.Title,
-                TotalGroupPrice = (decimal)(x.Price) * NoOfAdult,
+                Price =(decimal) x.Price,
 
 
             }).ToListAsync();
@@ -68,10 +68,12 @@ namespace FirstFlyProject.Services
                 PackageId = request.PackageID,
                 StartDate = request.SelectedStartDate,
                 EndDate = request.SelectedStartDate.AddDays(package.Duration),
-                Status = "Pending Payment"
+                Status = "Pending Payment",
+                PackageName=request.PackageName,
+                TotalPrice = request.TotalPrice
             };
 
-            _context.Bookings.Add(newBooking);
+            _context.Bookings.Add(newBooking);  
             await _context.SaveChangesAsync();
 
             if (request.IncludeInsurance)

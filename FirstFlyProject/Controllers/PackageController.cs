@@ -4,13 +4,14 @@ using FirstFlyProject.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace FirstFlyProject.Controllers
 {
 
     [ApiController]
     [Route("api/[controller]")]
-    [Authorize(Roles = "TravelAgent")]
+    [Authorize]
     public class PackageController : BaseApiController
     {
 
@@ -28,34 +29,37 @@ namespace FirstFlyProject.Controllers
             var packages = await _context.TravelPackages.ToListAsync();
             return Json(packages);
         }
-        public record PackageDto(int PackageId, int Duration, string? IncludedServices, float? Price, string? Description, string? Title);
+        public record PackageDto(int Duration, string? IncludedServices, float? Price, string? Description, string? Title,string?url,string?destination);
         //public record PackageDto(int PackageId, string Title, int TravelAgentId);
-        [HttpPost]
+        [HttpPost("create")]
         public async Task<IActionResult> Create([FromBody] PackageDto Package)
         {
             TravelPackage newPackage = new TravelPackage();
+            
             newPackage.Duration = Package.Duration;
             newPackage.IncludedServices = Package.IncludedServices;
             newPackage.Price = Package.Price;
             newPackage.Description = Package.Description;
-
+            newPackage.ImageUrl=Package.url;
             newPackage.Title = Package.Title;
+            newPackage.Destination=Package.destination;
             newPackage.TravelAgentID = CurrentUserId;
             _context.TravelPackages.Add(newPackage);
             await _context.SaveChangesAsync();
-            return Ok("Package created successfully");
+            return Ok();
             // }
             //return BadRequest(ModelState);
         }
 
-        [HttpPut("{id}")]
+        [HttpPost("update/{id}")]
         public async Task<IActionResult> Edit(int id, [FromBody] PackageDto Package)
         {
-            if (id != Package.PackageId)
-                return BadRequest("ID mismatch");
+            
             TravelPackage newPackage = await _context.TravelPackages.FindAsync(id);
-
-            if(Package.Duration!=null) newPackage.Duration = Package.Duration;
+            if(Package.Title!=null) newPackage.Title = Package.Title;
+            if(Package.destination!=null) newPackage.Destination = Package.destination;
+            if(Package.url!=null) newPackage.ImageUrl = Package.url;
+            if (Package.Duration!=null) newPackage.Duration = Package.Duration;
 
             if(Package.IncludedServices!=null) newPackage.IncludedServices = Package.IncludedServices;
 
@@ -68,10 +72,10 @@ namespace FirstFlyProject.Controllers
             newPackage.TravelAgentID = CurrentUserId;
             _context.Update(newPackage);
             await _context.SaveChangesAsync();
-            return Ok("Package updated successfully");
+            return Ok();
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("delete/{id}")]
         public async Task<IActionResult> Delete(int id)
         {
             var package = await _context.TravelPackages.FindAsync(id);
@@ -80,16 +84,16 @@ namespace FirstFlyProject.Controllers
 
             _context.TravelPackages.Remove(package);
             await _context.SaveChangesAsync();
-            return Ok("Package deleted successfully");
+            return Ok();
         }
-        [HttpGet("{id}")]
+        [HttpGet("get/{id}")]
         public async Task<IActionResult> Details(int id)
         {
             var package = await _context.TravelPackages.FindAsync(id);
             if (package == null)
                 return NotFound();
 
-            return Json(package);
+            return Ok(package);
         }
     }
 }

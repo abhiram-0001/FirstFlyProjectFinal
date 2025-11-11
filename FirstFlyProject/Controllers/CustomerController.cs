@@ -21,7 +21,8 @@ namespace FirstFlyProject.Controllers
         {
 
             if (id != CurrentUserId) return Forbid();
-
+            var x = await _context.Users.FirstAsync(x => x.UserId == id);
+            if (x.Age <= 0) { return BadRequest("Age must be a positive integer."); }
             var p = await _context.Customers
                     .Where(x => x.CustomerID == id)
                     .Select(x => new { x.CustomerID, x.season, x.EmergencyContact }).FirstOrDefaultAsync();

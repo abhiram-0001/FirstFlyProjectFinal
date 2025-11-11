@@ -9,7 +9,7 @@ namespace FirstFlyProject.Services
     // Define the contract for all package-related business operations.
     public interface IPackageService
     {
-        Task<List<PackageSearchRequest>> SearchPackages(string DestinationParam,int NoOfAdult,double?maxprice);
+        Task<List<PackageSearchRequest>> SearchPackages(string? Destination, int? duration);
 
         Task<BookingDto> CreateBooking(CreateBookingRequest request, int userId);
     }

@@ -13,7 +13,8 @@ namespace FirstFlyProject.Entities
         public string Password { get; set; } = null!; // Should be stored as a hash
         public UserRole Role { get; set; }
         public string? ContactNumber { get; set; }
-
+        public string?Gender { get; set; }
+        public int Age { get; set; }
         public bool IsActive { get; set; } = true;
 
         // Navigation Properties (Relationships)
